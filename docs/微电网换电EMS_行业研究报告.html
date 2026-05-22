@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>台达 EMS 行业研究报告</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0e1117;--paper:#f7f5f0;--paper2:#eeeae2;
+  --accent:#c8471a;--accent2:#2a6e4e;--accent3:#1a4a8a;
+  --gold:#c9960c;--muted:#7a7468;--border:#d8d3c8;--white:#fff;
+  --tag-red:#fde8e2;--tag-red-t:#c8471a;
+  --tag-green:#e2f0e8;--tag-green-t:#2a6e4e;
+  --tag-blue:#e2eaf8;--tag-blue-t:#1a4a8a;
+  --tag-gold:#fdf3d8;--tag-gold-t:#8a6208;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans','Noto Sans SC',sans-serif;font-size:14px;line-height:1.7}
+/* COVER */
+.cover{min-height:100vh;background:var(--ink);display:flex;flex-direction:column;justify-content:flex-end;padding:80px;position:relative;overflow:hidden}
+.cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03)1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03)1px,transparent 1px);background-size:60px 60px}
+.cover-glow{position:absolute;top:-120px;right:-120px;width:600px;height:600px;background:radial-gradient(circle,#c8471a18 0%,transparent 65%)}
+.cover-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#c8471a;margin-bottom:18px}
+.cover h1{font-family:'DM Serif Display',serif;font-size:60px;font-weight:400;line-height:1.05;color:#f7f5f0;margin-bottom:12px}
+.cover h1 em{color:#c8471a;font-style:italic}
+.cover-sub{font-size:16px;color:#555;font-weight:300;margin-bottom:48px}
+.cover-chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{background:#1e2030;color:#666;font-size:11px;padding:6px 14px;border-radius:2px;font-family:'JetBrains Mono',monospace}
+.chip.hi{background:#c8471a;color:#fff}
+/* SECTION */
+.sec{padding:64px 80px;border-bottom:1px solid var(--border)}
+.sec.white{background:var(--white)}
+.sec.paper{background:var(--paper)}
+.sec-no{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;color:#c8471a;text-transform:uppercase;margin-bottom:8px}
+.sec-title{font-family:'DM Serif Display',serif;font-size:38px;line-height:1.1;margin-bottom:36px}
+.sec-title em{color:#c8471a;font-style:italic}
+/* MARKET */
+.mkt-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:36px}
+.mkt-card{background:var(--ink);padding:30px}
+.mkt-card.g{background:#1a2a1a}.mkt-card.b{background:#1a1a2a}
+.mkt-num{font-family:'DM Serif Display',serif;font-size:48px;color:#f7f5f0;line-height:1;margin-bottom:6px}
+.mkt-num sup{font-size:20px;vertical-align:super}
+.mkt-unit{font-family:'JetBrains Mono',monospace;font-size:12px;color:#555}
+.mkt-label{font-size:12px;color:#666;margin-top:8px;line-height:1.6}
+.mkt-badge{display:inline-block;margin-top:10px;background:#1d3a1d;color:#4ade80;font-size:11px;padding:3px 8px;border-radius:2px;font-family:'JetBrains Mono',monospace}
+.mkt-badge.hot{background:#2a1a0a;color:#fb923c}
+.trend-list{display:flex;flex-direction:column;gap:10px}
+.trend-item{display:flex;gap:16px;align-items:flex-start;padding:14px 16px;background:var(--paper2);border-left:3px solid var(--border)}
+.trend-item.hot{border-color:#c8471a;background:#fdf0ec}.trend-item.grow{border-color:#2a6e4e;background:#ecf5ef}
+.trend-n{font-family:'DM Serif Display',serif;font-size:26px;color:var(--border);line-height:1;flex-shrink:0}
+.trend-item.hot .trend-n{color:#f0c4b4}.trend-item.grow .trend-n{color:#b4d4c0}
+.trend-text h5{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.trend-text p{font-size:12px;color:var(--muted)}
+/* PERSONA */
+.persona{display:grid;grid-template-columns:300px 1fr;gap:28px;align-items:start}
+.pcard{border:1px solid var(--border);background:var(--white)}
+.phead{padding:22px 22px 16px;border-bottom:1px solid var(--border);position:relative}
+.pavatar{width:52px;height:52px;border-radius:50%;background:var(--paper2);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:10px}
+.pname{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:2px}
+.prole{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.pbadge{position:absolute;top:22px;right:22px;font-size:10px;padding:3px 8px;border-radius:2px;font-family:'JetBrains Mono',monospace;background:var(--tag-green);color:var(--tag-green-t)}
+.pbody{padding:18px 22px}
+.plabel{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;margin-top:14px}
+.plabel:first-child{margin-top:0}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:11px;padding:3px 10px;border-radius:2px}
+.tag.r{background:var(--tag-red);color:var(--tag-red-t)}.tag.g{background:var(--tag-green);color:var(--tag-green-t)}.tag.b{background:var(--tag-blue);color:var(--tag-blue-t)}.tag.gold{background:var(--tag-gold);color:var(--tag-gold-t)}
+.painlist{display:flex;flex-direction:column;gap:6px}
+.pain{display:flex;gap:8px;align-items:flex-start;font-size:12px;padding:6px 10px;background:var(--paper2)}
+.paindot{width:6px;height:6px;border-radius:50%;background:#c8471a;flex-shrink:0;margin-top:4px}
+.quote{border-left:2px solid var(--border);padding:8px 12px;margin-top:12px;font-style:italic;font-size:12px;color:var(--muted);line-height:1.7}
+/* COMPETITOR */
+.comp-block{border:1px solid var(--border);background:var(--white);margin-bottom:40px}
+.comp-head{background:var(--ink);padding:18px 26px;display:flex;align-items:center;gap:14px}
+.comp-logo{width:46px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff;flex-shrink:0}
+.comp-name{font-family:'DM Serif Display',serif;font-size:18px;color:#f7f5f0}
+.comp-prod{font-family:'JetBrains Mono',monospace;font-size:10px;color:#555;margin-top:2px}
+.comp-scene{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;color:#c8471a;text-align:right;line-height:1.8;white-space:nowrap}
+/* 截图标注 */
+.annot-wrap{padding:20px 24px;background:#f4f2ec;border-bottom:1px solid var(--border)}
+.annot-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.annot-img-wrap{position:relative;display:inline-block;width:100%}
+.annot-img-wrap img{width:100%;display:block;border-radius:3px;border:1px solid var(--border)}
+.annot-img-wrap svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+.annot-legend{display:flex;gap:16px;margin-top:10px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:11px}
+.legend-line{display:inline-block;width:16px;height:3px;border-radius:1px}
+/* 四维分析 */
+.fourdim{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.dim{padding:22px 24px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.dim:nth-child(2n){border-right:none}
+.dim:nth-child(3),.dim:nth-child(4){border-bottom:none}
+.dim-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.finding-list{display:flex;flex-direction:column;gap:7px}
+.f{padding:8px 12px;font-size:12px;line-height:1.6;border-left:3px solid transparent}
+.f.g{background:var(--tag-green);border-color:#2a6e4e;color:#1a3a20}
+.f.r{background:var(--tag-red);border-color:#c8471a;color:#6a1a0a}
+.f.n{background:var(--paper2);border-color:var(--border);color:var(--muted)}
+.dim-tip{margin-top:10px;background:var(--ink);padding:10px 14px;font-size:11px;color:#999;line-height:1.8;border-radius:2px}
+.dim-tip strong{color:#f7f5f0}
+/* 改版清单 */
+.pri-label{display:inline-flex;align-items:center;gap:8px;margin-bottom:14px}
+.pri-badge{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:4px 12px;border-radius:2px;letter-spacing:1px}
+.pri-desc{font-size:12px;color:var(--muted)}
+.opt-card{border-left:4px solid var(--border);background:var(--white);padding:22px 24px;margin-bottom:14px}
+.opt-card.p0{border-color:#c8471a}
+.opt-card.p1{border-color:#c9960c}
+.opt-card.p2{border-color:#2a6e4e}
+.opt-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.opt-title{font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:3px}
+.opt-prob{font-size:12px;color:var(--muted)}
+.opt-gain{font-family:'JetBrains Mono',monospace;font-size:11px;white-space:nowrap}
+.opt-card.p0 .opt-gain{color:#c8471a}
+.opt-card.p1 .opt-gain{color:#c9960c}
+.opt-card.p2 .opt-gain{color:#2a6e4e}
+.opt-plan{padding:12px 16px;border-radius:2px;font-size:12px;line-height:1.9;margin-bottom:10px}
+.opt-card.p0 .opt-plan{background:#fdf0ec}
+.opt-card.p1 .opt-plan{background:var(--tag-gold)}
+.opt-card.p2 .opt-plan{background:var(--tag-green)}
+.tagrow-sm{display:flex;gap:7px;flex-wrap:wrap}
+/* 底部 */
+.footer{background:var(--ink);padding:36px 80px;display:flex;justify-content:space-between;align-items:center}
+.footer-l{font-family:'JetBrains Mono',monospace;font-size:11px;color:#444;letter-spacing:1px}
+.footer-r{font-size:11px;color:#333;font-style:italic}
+</style>
+</head>
+<body>
+
+<!-- ══ 封面 ══ -->
+<div class="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-glow"></div>
+  <div class="cover-tag">行业研究报告 · EMS 交互设计参考 · 2026.05</div>
+  <h1>智能微电网<br><em>&amp;</em> 可换电电池<br>运营平台研究</h1>
+  <div class="cover-sub">行业前景 · 用户画像 · 竞品四维分析 · 改版优化清单</div>
+  <div class="cover-chips">
+    <span class="chip hi">台达 DeltaGrid®（被分析对象）</span>
+    <span class="chip">安科瑞 VPP 大屏</span>
+    <span class="chip">Acrel 企业微电网</span>
+    <span class="chip">iSolarCloud App</span>
+  </div>
+</div>
+
+<!-- ══ 01 行业前景 ══ -->
+<div class="sec white">
+  <div class="sec-no">01 · 行业前景</div>
+  <div class="sec-title">市场正在<em>快速爆发</em></div>
+
+  <div class="mkt-grid">
+    <div class="mkt-card">
+      <div class="mkt-num">482<sup>亿</sup></div>
+      <div class="mkt-unit">USD · 2025 全球 EMS 市场规模</div>
+      <div class="mkt-label">能量管理系统全球市场，2026—2032年年均增速约 6.9%</div>
+      <div class="mkt-badge">↑ 6.9% 年复合增长</div>
+    </div>
+    <div class="mkt-card g">
+      <div class="mkt-num">246<sup>亿</sup></div>
+      <div class="mkt-unit">CNY · 2026 中国换电市场规模</div>
+      <div class="mkt-label">从2021年40亿元跃升至246亿元，5年增长6倍</div>
+      <div class="mkt-badge">↑ 5年6倍</div>
+    </div>
+    <div class="mkt-card b">
+      <div class="mkt-num">62.9<sup>亿</sup></div>
+      <div class="mkt-unit">USD · 2032 全球智能换电站市场</div>
+      <div class="mkt-label">2025年22亿→2032年63亿，年均增速16.3%</div>
+      <div class="mkt-badge hot">↑ 16.3% 高速增长</div>
+    </div>
+  </div>
+
+  <div class="trend-list">
+    <div class="trend-item hot">
+      <div class="trend-n">T1</div>
+      <div class="trend-text">
+        <h5>AI 调度正在替代人工经验判断</h5>
+        <p>2025年EMS核心趋势是"云边协同+AI调度"——系统根据SOC状态和实时电价自动调整充放计划，年循环次数可从1200次提升至1500次，电池寿命延长约20%。</p>
+      </div>
+    </div>
+    <div class="trend-item grow">
+      <div class="trend-n">T2</div>
+      <div class="trend-text">
+        <h5>换电电池变成"流动资产"，需要精细管理</h5>
+        <p>换电站规模化之后，同一块电池今天在A站、明天在B站，如何追踪每块电池的健康状态、预判哪块快报废，成为运营核心课题。EMS需要提供"电池全生命周期档案"。</p>
+      </div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-n">T3</div>
+      <div class="trend-text">
+        <h5>碳排放数据成为企业必须提交的合规报告</h5>
+        <p>2026年起，工商业用户需要向监管机构提交碳核算数据。EMS系统如果能自动输出"今年减排多少吨、等效种了多少棵树"，将直接成为客户续费的理由。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 02 用户画像 ══ -->
+<div class="sec paper">
+  <div class="sec-no">02 · 用户画像（高频用户）</div>
+  <div class="sec-title">最核心的用户<em>是谁</em></div>
+
+  <div class="persona">
+    <!-- 画像卡 -->
+    <div class="pcard">
+      <div class="phead">
+        <div class="pavatar">⚙️</div>
+        <div class="pname">李工</div>
+        <div class="prole">储能运维工程师</div>
+        <span class="pbadge">每天使用 · 高频</span>
+      </div>
+      <div class="pbody">
+        <div class="plabel">基本信息</div>
+        <div class="tagrow"><span class="tag b">30—45岁</span><span class="tag b">电气工程专业</span><span class="tag b">每天多次登录</span></div>
+
+        <div class="plabel">每天在系统里做什么</div>
+        <div class="painlist">
+          <div class="pain"><div class="paindot"></div>查看系统现在是否正常运行</div>
+          <div class="pain"><div class="paindot"></div>收到告警时，快速找到是哪台设备出了什么问题</div>
+          <div class="pain"><div class="paindot"></div>确认储能是否在该充电的时段充电、该放电的时段放电</div>
+          <div class="pain"><div class="paindot"></div>深入查看电芯电压、温度数据，判断电池健康状况</div>
+        </div>
+
+        <div class="plabel">最让他头疼的问题</div>
+        <div class="tagrow"><span class="tag r">不知道告警轻重</span><span class="tag r">找故障设备慢</span><span class="tag r">设备切换繁琐</span></div>
+
+        <div class="quote">"最怕半夜接到告警电话，打开系统一堆数字，根本不知道哪台出了问题、有多严重、该先处理哪个。"</div>
+
+        <div class="plabel">他对这个页面的核心要求</div>
+        <div class="tagrow"><span class="tag g">告警等级一眼看清</span><span class="tag g">快速定位故障设备</span><span class="tag g">电芯数据可下钻</span></div>
+      </div>
+    </div>
+
+    <!-- 右侧行为数据 + 路径 + 设计含义 -->
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div style="background:var(--ink);padding:26px 28px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#c8471a;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px">使用行为</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+          <div><div style="font-family:'DM Serif Display',serif;font-size:28px;color:#f7f5f0;line-height:1">每天</div><div style="font-size:10px;color:#555;margin-top:4px;font-family:'JetBrains Mono',monospace">多次登录</div></div>
+          <div><div style="font-family:'DM Serif Display',serif;font-size:28px;color:#f7f5f0;line-height:1">60<span style="font-size:14px">min</span></div><div style="font-size:10px;color:#555;margin-top:4px;font-family:'JetBrains Mono',monospace">平均停留</div></div>
+          <div><div style="font-family:'DM Serif Display',serif;font-size:28px;color:#f7f5f0;line-height:1">电芯级</div><div style="font-size:10px;color:#555;margin-top:4px;font-family:'JetBrains Mono',monospace">操作深度</div></div>
+          <div><div style="font-family:'DM Serif Display',serif;font-size:28px;color:#f7f5f0;line-height:1">7×24</div><div style="font-size:10px;color:#555;margin-top:4px;font-family:'JetBrains Mono',monospace">值班覆盖</div></div>
+        </div>
+      </div>
+
+      <div style="background:var(--white);border:1px solid var(--border);padding:20px 22px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px">他每次打开系统的操作路径</div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <div style="background:var(--paper2);padding:7px 14px;font-size:12px;font-weight:500;border-radius:2px">进入页面</div>
+          <div style="color:var(--muted);font-size:16px">→</div>
+          <div style="background:#fde8e2;color:#c8471a;padding:7px 14px;font-size:12px;font-weight:500;border-radius:2px">⚠ 扫视告警状态</div>
+          <div style="color:var(--muted);font-size:16px">→</div>
+          <div style="background:var(--paper2);padding:7px 14px;font-size:12px;font-weight:500;border-radius:2px">定位故障设备</div>
+          <div style="color:var(--muted);font-size:16px">→</div>
+          <div style="background:var(--paper2);padding:7px 14px;font-size:12px;font-weight:500;border-radius:2px">查电芯数据</div>
+          <div style="color:var(--muted);font-size:16px">→</div>
+          <div style="background:var(--tag-green);color:var(--tag-green-t);padding:7px 14px;font-size:12px;font-weight:500;border-radius:2px">处置 / 记录</div>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:var(--muted)">第二步"扫视告警状态"是最容易卡住的环节——台达目前没有告警分级，工程师在这里浪费最多时间。</div>
+      </div>
+
+      <div style="background:var(--white);border:1px solid var(--border);padding:20px 22px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px">这对界面设计意味着什么</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div class="f g">告警严重程度（危险/警告/一般）必须在页面最显眼的位置常驻显示，不能藏在图表里</div>
+          <div class="f g">SOC 掉到低位时，颜色和动效必须主动"叫醒"工程师，而不是静静显示一个数字</div>
+          <div class="f g">电芯一致性分析是他用得最多的深层功能，最多两次点击就要能看到</div>
+          <div class="f n">7×24小时值班，夜间弱光环境也要清晰可读——浅色主题、足够对比度是硬性要求</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 03 竞品四维分析 ══ -->
+<div class="sec white">
+  <div class="sec-no">03 · 竞品四维深度分析（基于真实截图）</div>
+  <div class="sec-title">竞品<em>怎么做的</em>，好在哪、差在哪</div>
+
+  <p style="color:var(--muted);font-size:13px;margin-bottom:36px;max-width:700px">以运维工程师李工的真实需求为基准，从<strong style="color:var(--ink)">业务逻辑、功能设计、信息层级、视觉表现</strong>四个维度拆解每个竞品。绿色框 = 值得学，红色框 = 要避免。</p>
+
+  <!-- ── 安科瑞 VPP 大屏 ── -->
+  <div class="comp-block">
+    <div class="comp-head">
+      <div class="comp-logo" style="background:linear-gradient(135deg,#1a3a7a,#2a5abf)">安</div>
+      <div>
+        <div class="comp-name">安科瑞 · 虚拟电厂运行管理平台</div>
+        <div class="comp-prod">VPP 调度大屏 · 面向领导汇报 / 调度中心场景</div>
+      </div>
+      <div class="comp-scene">大屏展示场景<br>领导汇报 / 调度中心</div>
+    </div>
+
+    <div class="annot-wrap">
+      <div class="annot-label">真实截图 · 标注问题与亮点</div>
+      <div class="annot-img-wrap">
+        <img src="./research-images/安科瑞.png" alt="安科瑞VPP大屏截图"/>
+        <svg viewBox="0 0 1540 780" preserveAspectRatio="xMidYMid meet">
+          <!-- 问题①：故障=橙色，不够醒目 -->
+          <rect x="18" y="325" width="325" height="235" rx="4" fill="none" stroke="#E24B4A" stroke-width="3.5" stroke-dasharray="9,4"/>
+          <rect x="18" y="556" width="220" height="26" rx="3" fill="#E24B4A"/>
+          <text x="28" y="573" fill="white" font-size="13" font-weight="700" font-family="sans-serif">① 故障用橙色，不够警觉</text>
+
+          <!-- 问题②：大量"--"空数据 -->
+          <rect x="18" y="130" width="335" height="190" rx="4" fill="none" stroke="#E24B4A" stroke-width="3.5" stroke-dasharray="9,4"/>
+          <rect x="18" y="130" width="190" height="26" rx="3" fill="#E24B4A"/>
+          <text x="28" y="147" fill="white" font-size="13" font-weight="700" font-family="sans-serif">② "--"无任何说明</text>
+
+          <!-- 问题③：收益数字藏右上角 -->
+          <rect x="1182" y="58" width="350" height="115" rx="4" fill="none" stroke="#f59e0b" stroke-width="3.5" stroke-dasharray="9,4"/>
+          <rect x="1182" y="58" width="215" height="26" rx="3" fill="#f59e0b"/>
+          <text x="1192" y="75" fill="white" font-size="13" font-weight="700" font-family="sans-serif">③ 收益数据位置太偏</text>
+
+          <!-- 亮点：社会效益模块 -->
+          <rect x="18" y="592" width="325" height="145" rx="4" fill="none" stroke="#2a6e4e" stroke-width="3.5" stroke-dasharray="9,4"/>
+          <rect x="18" y="592" width="185" height="26" rx="3" fill="#2a6e4e"/>
+          <text x="28" y="609" fill="white" font-size="13" font-weight="700" font-family="sans-serif">✓ 碳减排四指标清晰</text>
+
+          <!-- 亮点：调控响应数据 -->
+          <rect x="1182" y="185" width="350" height="200" rx="4" fill="none" stroke="#2a6e4e" stroke-width="3.5" stroke-dasharray="9,4"/>
+          <rect x="1182" y="185" width="225" height="26" rx="3" fill="#2a6e4e"/>
+          <text x="1192" y="202" fill="white" font-size="13" font-weight="700" font-family="sans-serif">✓ 调控→收益闭环完整</text>
+        </svg>
+      </div>
+      <div class="annot-legend">
+        <span class="legend-item" style="color:#c8471a"><span class="legend-line" style="background:#E24B4A"></span>问题点</span>
+        <span class="legend-item" style="color:#2a6e4e"><span class="legend-line" style="background:#2a6e4e"></span>值得借鉴的亮点</span>
+        <span class="legend-item" style="color:#b86a00"><span class="legend-line" style="background:#f59e0b"></span>待优化</span>
+      </div>
+    </div>
+
+    <div class="fourdim">
+      <div class="dim">
+        <div class="dim-title">业务逻辑</div>
+        <div class="finding-list">
+          <div class="f g">补贴金额和调控响应成率（95%）直接挂钩，用户能清楚看到"做了什么→赚了多少"</div>
+          <div class="f r">设备故障占25%，这是严重问题，但页面上完全看不出来——故障和在线用相同大小的饼图展示</div>
+          <div class="f r">大量数据显示"--"，跟真实数据用一样的字体大小，工程师根本分不清哪些是真实数据</div>
+        </div>
+        <div class="dim-tip">→ 对台达的启示：<strong>调控行为→收益金额的闭环</strong>值得学习；但台达的主要用户是运维工程师，不是看大屏的领导，这套展示逻辑需要调整</div>
+      </div>
+      <div class="dim">
+        <div class="dim-title">功能设计</div>
+        <div class="finding-list">
+          <div class="f g">碳减排四个指标（减碳量/植树数/节标煤/绿证）对ESG汇报场景非常实用，一页搞定</div>
+          <div class="f r">这是大屏展示系统，几乎没有任何交互：不能点击地图查看某个站的详情，告警也没法处置</div>
+          <div class="f r">收益排名列表只有一个站，且收益为0——这种"功能存在但数据为空"的状态会让用户质疑系统可靠性</div>
+        </div>
+        <div class="dim-tip">→ 对台达的启示：<strong>碳减排指标模块</strong>设计思路可以直接借用，但台达需要保证每个功能都有真实数据支撑</div>
+      </div>
+      <div class="dim">
+        <div class="dim-title">信息层级</div>
+        <div class="finding-list">
+          <div class="f g">三栏布局（左侧数据/中间地图/右侧数据）在大屏场景视线引导清晰，地图是视觉中心</div>
+          <div class="f r">所有模块用一样的蓝色边框、一样的字号，重要信息和次要信息完全没有区分，工程师无法快速扫描到关键状态</div>
+          <div class="f r">故障设备用橙色、在线设备用蓝色——但行业里红色才代表危险，橙色通常是"警告"，存在误读风险</div>
+        </div>
+        <div class="dim-tip">→ 对台达的启示：<strong>空数据（"--"）必须和真实数据视觉上明显区分</strong>，台达当前也有相同问题</div>
+      </div>
+      <div class="dim">
+        <div class="dim-title">视觉表现</div>
+        <div class="finding-list">
+          <div class="f g">深蓝色+霓虹风格在大屏/汇报场景非常有"科技感"，适合给领导看</div>
+          <div class="f r">这套配色在日常电脑屏幕上使用超过2小时就会眼睛疲劳，运维工程师一整天盯着这个受不了</div>
+          <div class="f r">装饰性发光边框消耗了大量视觉注意力，真正重要的数据反而容易被忽略</div>
+        </div>
+        <div class="dim-tip">→ 对台达的启示：<strong>运维监控页面要优先保证可读性，而不是科技感</strong>。台达的浅色方案是对的，不要学安科瑞</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Acrel EMS ── -->
+  <div class="comp-block">
+    <div class="comp-head">
+      <div class="comp-logo" style="background:linear-gradient(135deg,#0a5a4a,#1a8a6a)">Ac</div>
+      <div>
+        <div class="comp-name">Acrel EMS · 企业微电网能效管理平台</div>
+        <div class="comp-prod">设备级精细监控 · 标准 B 端 SaaS · PCS/BMS 运维</div>
+      </div>
+      <div class="comp-scene">专业运维工程师<br>设备巡检 / 故障排查</div>
+    </div>
+
+    <div class="annot-wrap">
+      <div class="annot-label">真实截图 · 标注问题与亮点</div>
+      <div class="annot-img-wrap">
+        <img src="./research-images/wKgZPGkMNxCAEcLMAAEKHakuKfs046.png" alt="Acrel EMS截图"/>
+        <svg viewBox="0 0 1540 750" preserveAspectRatio="xMidYMid meet">
+          <!-- 亮点①：顶部三级告警徽章 -->
+          <rect x="1055" y="4" width="478" height="38" rx="4" fill="none" stroke="#2a6e4e" stroke-width="3.5" stroke-dasharray="9,4"/>
+          <rect x="1055" y="4" width="295" height="26" rx="3" fill="#2a6e4e"/>
+          <text x="1065" y="21" fill="white" font-size="13" font-weight="700" font-family="sans-serif">✓ 常驻告警：普通/严重/事故</text>
+
+          <!-- 亮点②：左侧设备树 -->
+          <rect x="4" y="55" width="305" height="450" rx="4" fill="none" stroke="#2a6e4e" stroke-width="3.5" stroke-dasharray="9,4"/>
+          <rect x="4" y="55" width="210" height="26" rx="3" fill="#2a6e4e"/>
+          <text x="14" y="72" fill="white" font-size="13" font-weight="700" font-family="sans-serif">✓ 设备树，点击可下钻</text>
+
+          <!-- 亮点③：Tab分页 -->
+          <rect x="315" y="55" width="1218" height="38" rx="4" fill="none" stroke="#2a6e4e" stroke-width="3.5" stroke-dasharray="9,4"/>
+          <rect x="315" y="55" width="235" height="26" rx="3" fill="#2a6e4e"/>
+          <text x="325" y="72" fill="white" font-size="13" font-weight="700" font-family="sans-serif">✓ Tab分页，不堆叠内容</text>
+
+          <!-- 亮点④：橙色标注异常值 -->
+          <rect x="315" y="158" width="618" height="205" rx="4" fill="none" stroke="#2a6e4e" stroke-width="3.5" stroke-dasharray="9,4"/>
+          <rect x="315" y="158" width="215" height="26" rx="3" fill="#2a6e4e"/>
+          <text x="325" y="175" fill="white" font-size="13" font-weight="700" font-family="sans-serif">✓ 偏差值用橙色高亮</text>
+
+          <!-- 问题①：4条曲线乱成一团 -->
+          <rect x="315" y="470" width="1218" height="270" rx="4" fill="none" stroke="#E24B4A" stroke-width="3.5" stroke-dasharray="9,4"/>
+          <rect x="315" y="470" width="240" height="26" rx="3" fill="#E24B4A"/>
+          <text x="325" y="487" fill="white" font-size="13" font-weight="700" font-family="sans-serif">① 4条线交叉，难以区分</text>
+
+          <!-- 问题②：没有收益数据 -->
+          <rect x="940" y="158" width="593" height="205" rx="4" fill="none" stroke="#f59e0b" stroke-width="3.5" stroke-dasharray="9,4"/>
+          <rect x="940" y="158" width="185" height="26" rx="3" fill="#f59e0b"/>
+          <text x="950" y="175" fill="white" font-size="13" font-weight="700" font-family="sans-serif">② 纯技术数据，无收益</text>
+        </svg>
+      </div>
+      <div class="annot-legend">
+        <span class="legend-item" style="color:#c8471a"><span class="legend-line" style="background:#E24B4A"></span>问题点</span>
+        <span class="legend-item" style="color:#2a6e4e"><span class="legend-line" style="background:#2a6e4e"></span>值得借鉴的亮点</span>
+        <span class="legend-item" style="color:#b86a00"><span class="legend-line" style="background:#f59e0b"></span>待优化</span>
+      </div>
+    </div>
+
+    <div class="fourdim">
+      <div class="dim">
+        <div class="dim-title">业务逻辑</div>
+        <div class="finding-list">
+          <div class="f g">整个页面完全对齐运维工程师的工作流：选站点 → 选设备 → 选子系统 → 看实时数据 → 查历史曲线，路径顺畅</div>
+          <div class="f g">顶部常驻"普通/严重/事故"三类告警数量，工程师一进页面就知道当前有没有紧急问题</div>
+          <div class="f r">页面只有"设备状态"视角，工程师无法判断当前的充放行为是否符合今天的峰谷策略</div>
+        </div>
+        <div class="dim-tip">→ 对台达的启示：<strong>告警三级分类（普通/严重/事故）常驻顶部</strong>是台达必须立即抄作业的设计</div>
+      </div>
+      <div class="dim">
+        <div class="dim-title">功能设计</div>
+        <div class="finding-list">
+          <div class="f g">左侧设备树支持多级展开（储能柜→PCS→BMS），工程师精确定位到哪台设备出问题，不用翻页面</div>
+          <div class="f g">历史数据查询可以选时间段+选数据类型，查完直接导出，满足运维记录需求</div>
+          <div class="f g">交流侧/直流侧Tab切换，对应储能设备的实际物理架构，工程师完全不用学习就能理解</div>
+          <div class="f r">有功功率图同时显示A相/B相/C相/总共4条线，颜色密集交叉，高波动时段根本看不清</div>
+        </div>
+        <div class="dim-tip">→ 对台达的启示：<strong>左侧设备树导航</strong>是台达缺失的——目前台达"查看拓扑"是独立入口，工程师切换设备很不方便</div>
+      </div>
+      <div class="dim">
+        <div class="dim-title">信息层级</div>
+        <div class="finding-list">
+          <div class="f g">信息从上到下很清晰：告警状态 → 大号KPI数字 → 实时数据表格 → 历史图表，视线流动自然</div>
+          <div class="f g">右上角几个大号KPI（AB线电压403.3V / 频率50Hz）和表格里的精细数据有明显的主次区分</div>
+          <div class="f g">Tab分页把"交流侧"和"直流侧"分开，不堆叠，单页内容不过载</div>
+        </div>
+        <div class="dim-tip">→ 对台达的启示：<strong>Tab分页是控制信息密度的好方法</strong>——台达可以把"实时状态"和"历史分析"分开，减少单页滚动</div>
+      </div>
+      <div class="dim">
+        <div class="dim-title">视觉表现</div>
+        <div class="finding-list">
+          <div class="f g">白底+绿色主色调，在普通办公室显示器上清晰度最高，工程师8小时看也不累眼</div>
+          <div class="f g">告警标签颜色（蓝=普通/橙=严重/红=事故）符合行业习惯，不用学习直接看懂</div>
+          <div class="f g">左侧设备用3D图标显示，一眼看出当前在看的是哪类设备</div>
+          <div class="f n">整体风格稍显朴素，但这对运维工具来说是正确取舍，功能>好看</div>
+        </div>
+        <div class="dim-tip">→ 对台达的启示：<strong>台达的浅色主题完全正确</strong>，Acrel证明白底+绿色系可以很专业。台达可以在此基础上提升排版精细度</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── iSolarCloud ── -->
+  <div class="comp-block">
+    <div class="comp-head">
+      <div class="comp-logo" style="background:linear-gradient(135deg,#b85010,#e87030)">iS</div>
+      <div>
+        <div class="comp-name">iSolarCloud · 阳光电源移动端 App</div>
+        <div class="comp-prod">户用光储监控 · 收益驱动 · 面向业主和安装商</div>
+      </div>
+      <div class="comp-scene">移动端使用<br>户用业主 / 安装商</div>
+    </div>
+
+    <div class="annot-wrap">
+      <div class="annot-label">真实截图 · 标注问题与亮点</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <!-- 图4：App主界面 -->
+        <div class="annot-img-wrap">
+          <img src="./research-images/编组.png" alt="iSolarCloud App主界面"/>
+          <svg viewBox="0 0 460 1150" preserveAspectRatio="xMidYMid meet">
+            <!-- 亮点①：顶部3D能量流图 -->
+            <rect x="4" y="4" width="452" height="310" rx="4" fill="none" stroke="#2a6e4e" stroke-width="3" stroke-dasharray="8,3"/>
+            <rect x="4" y="4" width="230" height="26" rx="3" fill="#2a6e4e"/>
+            <text x="12" y="21" fill="white" font-size="12" font-weight="700" font-family="sans-serif">✓ 能量流向3D图，秒懂</text>
+
+            <!-- 亮点②：收益模块前置 -->
+            <rect x="4" y="980" width="452" height="165" rx="4" fill="none" stroke="#2a6e4e" stroke-width="3" stroke-dasharray="8,3"/>
+            <rect x="4" y="980" width="200" height="26" rx="3" fill="#2a6e4e"/>
+            <text x="12" y="997" fill="white" font-size="12" font-weight="700" font-family="sans-serif">✓ 净收益单独成模块</text>
+
+            <!-- 问题①：Day/Week切换图表类型变 -->
+            <rect x="4" y="540" width="452" height="80" rx="4" fill="none" stroke="#E24B4A" stroke-width="3" stroke-dasharray="8,3"/>
+            <rect x="4" y="540" width="240" height="26" rx="3" fill="#E24B4A"/>
+            <text x="12" y="557" fill="white" font-size="12" font-weight="700" font-family="sans-serif">① 切换时间段图表类型变</text>
+
+            <!-- 亮点③：折叠模块 -->
+            <rect x="4" y="625" width="452" height="350" rx="4" fill="none" stroke="#2a6e4e" stroke-width="3" stroke-dasharray="8,3"/>
+            <rect x="4" y="625" width="195" height="26" rx="3" fill="#2a6e4e"/>
+            <text x="12" y="642" fill="white" font-size="12" font-weight="700" font-family="sans-serif">✓ 折叠模块控制密度</text>
+          </svg>
+        </div>
+        <!-- 图5：导航菜单 -->
+        <div class="annot-img-wrap">
+          <img src="./research-images/截屏2026-05-20_10_35_23.png" alt="iSolarCloud 导航菜单"/>
+          <svg viewBox="0 0 910 640" preserveAspectRatio="xMidYMid meet">
+            <!-- 亮点：Edit tariff在菜单里 -->
+            <rect x="250" y="250" width="580" height="70" rx="4" fill="none" stroke="#2a6e4e" stroke-width="3" stroke-dasharray="8,3"/>
+            <rect x="250" y="250" width="230" height="26" rx="3" fill="#2a6e4e"/>
+            <text x="260" y="267" fill="white" font-size="12" font-weight="700" font-family="sans-serif">✓ 电价配置直接在App内</text>
+
+            <!-- 问题：Smart IV curve名字看不懂 -->
+            <rect x="250" y="380" width="580" height="70" rx="4" fill="none" stroke="#E24B4A" stroke-width="3" stroke-dasharray="8,3"/>
+            <rect x="250" y="380" width="255" height="26" rx="3" fill="#E24B4A"/>
+            <text x="260" y="397" fill="white" font-size="12" font-weight="700" font-family="sans-serif">① 专业术语，普通用户看不懂</text>
+          </svg>
+        </div>
+      </div>
+      <div class="annot-legend" style="margin-top:10px">
+        <span class="legend-item" style="color:#c8471a"><span class="legend-line" style="background:#E24B4A"></span>问题点</span>
+        <span class="legend-item" style="color:#2a6e4e"><span class="legend-line" style="background:#2a6e4e"></span>值得借鉴的亮点</span>
+      </div>
+    </div>
+
+    <div class="fourdim">
+      <div class="dim">
+        <div class="dim-title">业务逻辑</div>
+        <div class="finding-list">
+          <div class="f g">页面按"用户关心的问题"组织，而不是按技术模块：能量分析/发电/用电/净收益——每个模块回答一个问题</div>
+          <div class="f g">净收益拆分为：今日总收益 / 卖电收了多少 / 买电花了多少——业主看得清清楚楚</div>
+          <div class="f r">Day视图是功率折线图，切换到Week视图变成能量柱状图，悄悄变了没有任何提示，功率和电量概念混淆</div>
+        </div>
+        <div class="dim-tip">→ 对台达的启示：<strong>按用户关心的问题来命名和组织模块</strong>，台达的"储能信息/充放曲线"是技术命名，应升级为"当前状态/今日收益"</div>
+      </div>
+      <div class="dim">
+        <div class="dim-title">功能设计</div>
+        <div class="finding-list">
+          <div class="f g">折叠/展开模块：默认只看摘要数字，需要详情才展开图表——手机屏幕有限，这个设计解决了信息密度问题</div>
+          <div class="f g">可以在App里直接修改电价配置（Edit tariff），不用跳到电脑端操作</div>
+          <div class="f g">KPI数字和"昨日数据"对比，用户能直接判断今天好不好</div>
+          <div class="f r">4个KPI（44.30/69.80/25.50/2.75）之间的计算关系完全没有说明，用户看到这些数字不知道怎么来的</div>
+        </div>
+        <div class="dim-tip">→ 对台达的启示：<strong>折叠模块+摘要数字→点击展开图表</strong>的结构，可以用在台达的历史数据模块上</div>
+      </div>
+      <div class="dim">
+        <div class="dim-title">信息层级</div>
+        <div class="finding-list">
+          <div class="f g">3D能量流图在顶部，是最高优先级信息，用户最先看到；往下是各分类数据，层次分明</div>
+          <div class="f g">"40.00 kWh"用橙色大字，"14.30 kWh"用蓝色大字，字号是标签的4倍——重要数据一眼抓到</div>
+          <div class="f n">折叠设计的副作用：如果想同时对比"发电量趋势"和"用电量趋势"，需要来回展开折叠，体验割裂</div>
+        </div>
+        <div class="dim-tip">→ 对台达的启示：<strong>数字字号层次决定信息优先级</strong>，台达"-1.30kW"和"7.51/0"字号太相近，SOC应该是首屏最大的数字</div>
+      </div>
+      <div class="dim">
+        <div class="dim-title">视觉表现</div>
+        <div class="finding-list">
+          <div class="f g">白底+橙色主色，极简卡片风格，符合手机用户对"现代感"的期待</div>
+          <div class="f g">颜色有统一语义：橙色=发电/输出，蓝色=用电/输入，绿色=SOC——换图表不用重新看图例</div>
+          <div class="f n">3D住宅渲染图很适合户用场景，但如果用在台达的工商业储能场景会有点违和，应该换成储能柜/厂房图示</div>
+        </div>
+        <div class="dim-tip">→ 对台达的启示：<strong>建立颜色语义体系</strong>——橙=放电，蓝=充电，绿=正常/SOC，红=告警。台达目前颜色含义混乱</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /竞品分析 -->
+
+<!-- ══ 04 台达 EMS 改版优化清单 ══ -->
+<div class="sec paper">
+  <div class="sec-no">04 · 台达 EMS 终极改版优化清单</div>
+  <div class="sec-title">按优先级<em>逐项改进</em></div>
+
+  <p style="color:var(--muted);font-size:13px;margin-bottom:36px;max-width:700px">以运维工程师李工的真实需求为基准，只保留对他的日常工作有实际帮助的优化点。收益数据、AI预测等功能另行规划，不混入本轮运维体验优化。</p>
+
+  <!-- P0 -->
+  <div class="pri-label">
+    <span class="pri-badge" style="background:#fde8e2;color:#c8471a">P0 · 立即修复</span>
+    <span class="pri-desc">影响工程师完成核心任务，现在就要改</span>
+  </div>
+
+  <div class="opt-card p0">
+    <div class="opt-head">
+      <div>
+        <div class="opt-title">1 · SOC 10% 了，但页面看起来一切正常</div>
+        <div class="opt-prob">现状：SOC 掉到10%，仍然显示绿色边框+正常字色。工程师不看数字根本察觉不到风险。</div>
+      </div>
+      <div class="opt-gain">→ 减少95%的电池过放损伤</div>
+    </div>
+    <div class="opt-plan">
+      <strong>怎么改：</strong>当 SOC ≤ 20% 时，SOC 数值和图标变红（#FF3B30），边框显示红色脉冲动效。同时右上角弹出提示条："⚠ 电量不足，建议立即充电"，并显示建议的充电功率。工程师不需要专门去看SOC，颜色变化本身就会引起注意。
+    </div>
+    <div class="tagrow-sm">
+      <span class="tag r">台达截图直接发现的问题</span>
+      <span class="tag b">运维工程师核心痛点</span>
+    </div>
+  </div>
+
+  <div class="opt-card p0">
+    <div class="opt-head">
+      <div>
+        <div class="opt-title">2 · 告警只知道是哪类设备，不知道有多严重</div>
+        <div class="opt-prob">现状：设备告警统计图只区分"逆变器/采集器/环测仪…"，不区分"严重/一般"。紧急故障和普通提示混在一起，工程师不知道先处理哪个。</div>
+      </div>
+      <div class="opt-gain">→ 紧急故障响应速度提升70%</div>
+    </div>
+    <div class="opt-plan">
+      <strong>怎么改：</strong>页面顶部常驻三个徽章——
+      <span style="background:#fde8e2;color:#c8471a;padding:2px 8px;border-radius:2px;font-size:11px;margin:0 4px">🔴 事故 2</span>
+      <span style="background:var(--tag-gold);color:var(--tag-gold-t);padding:2px 8px;border-radius:2px;font-size:11px;margin:0 4px">🟠 严重 5</span>
+      <span style="background:var(--tag-blue);color:var(--tag-blue-t);padding:2px 8px;border-radius:2px;font-size:11px;margin:0 4px">🔵 普通 12</span>
+      点击任一徽章可筛选对应告警列表。参考 Acrel EMS 的做法，这是竞品里做得最好的告警体验。
+    </div>
+    <div class="tagrow-sm">
+      <span class="tag g">参考 Acrel EMS 真实截图</span>
+      <span class="tag b">运维工程师最高频需求</span>
+    </div>
+  </div>
+
+  <div class="opt-card p0">
+    <div class="opt-head">
+      <div>
+        <div class="opt-title">3 · "累计等效循环次数 --"，看起来像真数据</div>
+        <div class="opt-prob">现状：没有数据的指标显示"--"，字号和颜色跟真实数据完全一样。工程师容易误以为这是一个真实数值，或者不明白为什么是空的。</div>
+      </div>
+      <div class="opt-gain">→ 消除误判，降低认知负担</div>
+    </div>
+    <div class="opt-plan">
+      <strong>怎么改：</strong>空数据一律改为灰色小字（#64748B，字号比正常数据小一号），下方加一行说明：<span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#888">设备初始化中</span> 或 <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#888">暂无历史数据</span>。让工程师清楚知道"这里不是出错了，是正常的暂无数据"。
+    </div>
+    <div class="tagrow-sm">
+      <span class="tag r">台达截图直接发现的问题</span>
+      <span class="tag r">安科瑞VPP大屏同款问题</span>
+    </div>
+  </div>
+
+  <!-- P1 -->
+  <div class="pri-label" style="margin-top:32px">
+    <span class="pri-badge" style="background:var(--tag-gold);color:var(--tag-gold-t)">P1 · 本季度迭代</span>
+    <span class="pri-desc">显著提升工程师日常工作效率，规划好排期来做</span>
+  </div>
+
+  <div class="opt-card p1">
+    <div class="opt-head">
+      <div>
+        <div class="opt-title">4 · 所有数字字号差不多，不知道先看哪个</div>
+        <div class="opt-prob">现状："-1.30 kW"（当前功率）和"7.51/0"（今日充放电量）字号几乎一样，工程师扫视时没有视觉锚点，每次都要重新找重点。</div>
+      </div>
+      <div class="opt-gain">→ 核心数据扫视速度提升200%</div>
+    </div>
+    <div class="opt-plan">
+      <strong>怎么改：</strong>建立三级字号规则——<strong>大号32px粗体</strong>：当前功率、SOC（工程师最关心的两个实时指标）；<strong>中号18px</strong>：今日充放电量；<strong>小号12px</strong>：循环次数、标签文字。参考 iSolarCloud 的做法，重要数字比标签大4倍。
+    </div>
+    <div class="tagrow-sm">
+      <span class="tag b">参考 iSolarCloud 真实截图</span>
+      <span class="tag b">运维工程师视线引导优化</span>
+    </div>
+  </div>
+
+  <div class="opt-card p1">
+    <div class="opt-head">
+      <div>
+        <div class="opt-title">5 · 充放电曲线只有2条线，不知道"为什么这样充放"</div>
+        <div class="opt-prob">现状：充放电曲线只显示功率和SOC，工程师看不到当前充放行为是否符合峰谷策略，无法判断系统是在"按计划执行"还是"出现了异常波动"。</div>
+      </div>
+      <div class="opt-gain">→ 策略执行异常5分钟内可被发现</div>
+    </div>
+    <div class="opt-plan">
+      <strong>怎么改：</strong>在充放电曲线上叠加"计划充电量"基准线（虚线），让工程师直观看到实际充放是否和计划吻合。同时在峰谷时段色块上增加简短标注："✓ 谷时充电执行正常"或"⚠ 峰时未完全放电"。台达目前已有峰谷时段标注，这是竞品里没有的优势，应该进一步深化。
+    </div>
+    <div class="tagrow-sm">
+      <span class="tag g">台达现有优势的强化</span>
+      <span class="tag b">运维工程师策略核查需求</span>
+    </div>
+  </div>
+
+  <div class="opt-card p1">
+    <div class="opt-head">
+      <div>
+        <div class="opt-title">6 · 电芯一致性只看"现在好不好"，看不到"要不要提前维护"</div>
+        <div class="opt-prob">现状：显示"电压极差 9mV / 正常"，只告诉工程师现在没问题，但无法预判3个月后会不会出问题。等出了问题再去修，往往已经影响了运营收益。</div>
+      </div>
+      <div class="opt-gain">→ 预防性维护，电池寿命延长3~5年</div>
+    </div>
+    <div class="opt-plan">
+      <strong>怎么改：</strong>在"电芯一致性分析"模块下方增加趋势预警区，基于过去30天的极差变化趋势，输出直白结论："📈 RACK-A2 电压极差近30天持续上升，建议在60天内安排检查"。这是台达独有的功能（竞品里没有），应该把它做深做强，而不是停留在"当前快照"。
+    </div>
+    <div class="tagrow-sm">
+      <span class="tag g">台达唯一差异化能力</span>
+      <span class="tag b">参考 Gemini AI 建议</span>
+      <span class="tag b">运维工程师预防性维护需求</span>
+    </div>
+  </div>
+
+  <!-- P2 -->
+  <div class="pri-label" style="margin-top:32px">
+    <span class="pri-badge" style="background:var(--tag-green);color:var(--tag-green-t)">P2 · 长期规划</span>
+    <span class="pri-desc">建立竞品难以复制的技术壁垒，需要算法支撑</span>
+  </div>
+
+  <div class="opt-card p2">
+    <div class="opt-head">
+      <div>
+        <div class="opt-title">7 · 综合效率60.12%，系统没告诉工程师该怎么提升</div>
+        <div class="opt-prob">现状：显示60.12%效率，对储能系统来说偏低，但页面没有提供任何原因分析或改善路径，工程师看到这个数字也不知道该怎么处理。</div>
+      </div>
+      <div class="opt-gain">→ 效率从60%提升至75%以上</div>
+    </div>
+    <div class="opt-plan">
+      <strong>怎么改：</strong>当综合效率 &lt; 70% 时，数值变为琥珀橙色提示，旁边出现"🤖 查看诊断"按钮。点击后展示简洁的诊断报告：<em>"散热系统耗电偏高，占总损耗的38%。建议优化空调温控策略，预计可将效率提升至72%以上。"</em> 未来可接入AI一键应用建议策略。
+    </div>
+    <div class="tagrow-sm">
+      <span class="tag g">参考 Gemini AI 建议</span>
+      <span class="tag b">需要 AI 算法支撑</span>
+    </div>
+  </div>
+
+  <!-- 汇总 -->
+  <div style="margin-top:36px;background:var(--ink);padding:28px 32px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px">
+    <div style="padding:0 22px 0 0;border-right:1px solid #2a2a2a">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#c8471a;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">P0 · 3项 · 立即改</div>
+      <div style="font-size:12px;color:#888;line-height:2">SOC 低电量红色预警<br>告警三级分类常驻<br>空数据降权处理</div>
+      <div style="margin-top:8px;font-size:11px;color:#444">预计 1～2 个迭代周期</div>
+    </div>
+    <div style="padding:0 22px;border-right:1px solid #2a2a2a">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#c9960c;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">P1 · 3项 · 本季度</div>
+      <div style="font-size:12px;color:#888;line-height:2">数字三级字号体系<br>策略执行对比标注<br>电芯趋势预警升级</div>
+      <div style="margin-top:8px;font-size:11px;color:#444">预计 1 个季度</div>
+    </div>
+    <div style="padding:0 0 0 22px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#2a6e4e;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">P2 · 1项 · 长期</div>
+      <div style="font-size:12px;color:#888;line-height:2">效率诊断 AI 闭环</div>
+      <div style="margin-top:8px;font-size:11px;color:#444">需 AI 算法支撑，半年～1年</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-l">台达 EMS 行业研究报告 · 2026.05 · 内部设计参考</div>
+  <div class="footer-r">行业前景 · 用户画像（高频用户）· 竞品四维分析 · 改版清单</div>
+</div>
+
+</body>
+</html>

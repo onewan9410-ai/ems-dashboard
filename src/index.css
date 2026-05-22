@@ -1,0 +1,229 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-canvas: #f0f2f5;
+  --color-card: #ffffff;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ff3b30;
+  --color-info: #3b82f6;
+  --color-charge: #3b82f6;
+  --color-discharge: #f59e0b;
+  --color-muted: #64748b;
+  --font-sans: 'Inter', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+}
+
+@keyframes soc-warning-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.22);
+  }
+  50% {
+    box-shadow: 0 0 20px 4px rgba(255, 59, 48, 0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.soc-warning-banner {
+  border: 1px solid rgba(255, 59, 48, 0.28);
+  background: rgba(255, 59, 48, 0.08);
+  animation: soc-warning-glow 1.6s ease-in-out infinite;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.35s ease-out forwards;
+}
+
+@keyframes topology-flow-dash {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+
+.topology-flow-active {
+  animation: topology-flow-dash 1.2s linear infinite;
+}
+
+/* KPI typography tiers — 储能信息统一字号 */
+.kpi-tier-1 {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.kpi-tier-2 {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.kpi-tier-3 {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* 数值单位（kW / kWh / % 等） */
+.kpi-unit {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* 辅助说明、徽章文案 */
+.kpi-meta {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* 状态标签选中态：贴边 30% → 向外 4px 处 0% 透明度渐变 */
+.status-tag-halo {
+  --status-tag-halo-size: 4px;
+  box-shadow:
+    0 0 0 0 rgb(var(--status-tag-halo-rgb) / 30%),
+    0 0 0 1px rgb(var(--status-tag-halo-rgb) / 22.5%),
+    0 0 0 2px rgb(var(--status-tag-halo-rgb) / 15%),
+    0 0 0 3px rgb(var(--status-tag-halo-rgb) / 7.5%),
+    0 0 0 var(--status-tag-halo-size) rgb(var(--status-tag-halo-rgb) / 0%);
+}
+
+.status-tag-halo-danger {
+  --status-tag-halo-rgb: 255 59 48;
+}
+
+.status-tag-halo-warning {
+  --status-tag-halo-rgb: 245 158 11;
+}
+
+.status-tag-halo-success {
+  --status-tag-halo-rgb: 34 197 94;
+}
+
+.status-tag-halo-info {
+  --status-tag-halo-rgb: 59 130 246;
+}
+
+.dark {
+  --color-canvas: #0b0f14;
+  --color-card: #151b26;
+  --color-muted: #8b9cb3;
+}
+
+.dark .soc-warning-banner {
+  border-color: rgba(255, 59, 48, 0.35);
+  background: rgba(255, 59, 48, 0.12);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-canvas);
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+}
+
+.dark body {
+  color: #e2e8f0;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* 告警统计：hover 气泡盖过底部图例开关 */
+.alarm-stats-chart .recharts-tooltip-wrapper {
+  z-index: 60 !important;
+}
+
+/* 告警统计：点击柱条不出现描边高亮 */
+.alarm-stats-chart .recharts-bar-rectangle,
+.alarm-stats-chart .recharts-active-bar .recharts-bar-rectangle {
+  stroke: none !important;
+  outline: none;
+}
+
+.alarm-stats-chart .recharts-bar-rectangle:focus {
+  outline: none;
+}
+
+.alarm-stats-chart .recharts-wrapper,
+.alarm-stats-chart .recharts-surface,
+.alarm-stats-chart .recharts-wrapper:focus,
+.alarm-stats-chart .recharts-wrapper:focus-visible {
+  outline: none !important;
+}
+
+.alarm-stats-chart .recharts-tooltip-cursor {
+  fill: rgba(255, 255, 255, 0.1);
+  stroke: none !important;
+  stroke-width: 0 !important;
+}
+
+/* 打开详情或点击后：强制隐藏 Recharts 行高亮框 */
+.alarm-stats-chart[data-detail-open] .recharts-tooltip-cursor,
+.alarm-stats-chart[data-suppress-hover] .recharts-tooltip-cursor {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.alarm-stats-chart[data-detail-open] .recharts-tooltip-wrapper,
+.alarm-stats-chart[data-suppress-hover] .recharts-tooltip-wrapper {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+/* 储能充放电量：点击后不保留 Recharts 列高亮框 */
+.storage-volume-chart .recharts-bar-rectangle,
+.storage-volume-chart .recharts-active-bar .recharts-bar-rectangle {
+  stroke: none !important;
+  outline: none;
+}
+
+.storage-volume-chart .recharts-wrapper,
+.storage-volume-chart .recharts-surface,
+.storage-volume-chart .recharts-wrapper:focus,
+.storage-volume-chart .recharts-wrapper:focus-visible {
+  outline: none !important;
+}
+
+.storage-volume-chart .recharts-tooltip-cursor {
+  fill: rgba(255, 255, 255, 0.1);
+  stroke: none !important;
+  stroke-width: 0 !important;
+}
+
+.storage-volume-chart[data-suppress-hover] .recharts-tooltip-cursor,
+.storage-volume-chart[data-suppress-hover] .recharts-tooltip-wrapper {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 告警详情面板局部蒙层：比面板略宽，四边渐隐 */
+.alarm-detail-mask {
+  background: rgba(0, 0, 0, 0.1);
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
