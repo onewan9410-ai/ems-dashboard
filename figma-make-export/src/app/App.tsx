@@ -36,7 +36,7 @@ const UI = {
   kpiCard: "rounded-xl border border-border bg-muted px-3 py-2",
   chartPeriodShell: "inline-flex h-6 items-stretch overflow-hidden rounded border border-border bg-muted/80",
   chartPeriodDateLabel:
-    "flex h-6 min-w-[11.5rem] items-center justify-center border-x border-border px-2 font-mono text-[11px] font-medium leading-none tabular-nums text-muted-foreground",
+    "flex min-w-0 flex-1 items-center justify-center border-x border-border px-2 text-center font-mono text-[11px] font-medium leading-snug tabular-nums text-muted-foreground sm:min-w-[9rem] sm:flex-none",
   chartPeriodNavBtn:
     "inline-flex h-6 w-6 shrink-0 items-center justify-center text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40",
 } as const;
@@ -152,7 +152,7 @@ function ChartPeriodToolbar({
 function AiPredictionPanel({ text, className }: { text: string; className?: string }) {
   return (
     <div className={cn(UI.panelMd, "px-2.5 py-2", className)}>
-      <p className={cn("text-[10px] leading-relaxed", UI.textBody)}>
+      <p className={cn("break-words text-[10px] leading-relaxed", UI.textBody)}>
         <span className="font-medium text-[#3B82F6]">AI预警：</span>
         {text}
       </p>
@@ -728,13 +728,13 @@ function ConceptHelpTip({ text, placement = "bottom", iconClassName }: {
 
 function SectionTitle({ title, right, help }: { title: string; right?: ReactNode; help?: string }) {
   return (
-    <div className={cn("flex items-center justify-between px-4 py-3", UI.borderB)}>
-      <div className="flex items-center gap-2">
-        <div className="h-3.5 w-[3px] rounded-full bg-blue-500" />
-        <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">{title}</span>
+    <div className={cn("flex flex-wrap items-start justify-between gap-x-3 gap-y-2 px-4 py-3 sm:items-center", UI.borderB)}>
+      <div className="flex min-w-0 items-center gap-2">
+        <div className="h-3.5 w-[3px] shrink-0 rounded-full bg-blue-500" />
+        <span className="break-words text-sm font-semibold text-slate-800 dark:text-slate-200">{title}</span>
         {help && <ConceptHelpTip text={help} placement="bottom" />}
       </div>
-      {right}
+      {right ? <div className="flex w-full min-w-0 flex-wrap items-center gap-2 sm:w-auto sm:justify-end">{right}</div> : null}
     </div>
   );
 }
@@ -1039,8 +1039,8 @@ function Header({
     <Card className="overflow-hidden">
       <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-5">
         <div className="flex min-w-0 flex-wrap items-center gap-2 sm:gap-3">
-          <button className="group flex flex-shrink-0 items-center gap-1.5">
-            <span className="text-sm font-bold tracking-tight text-slate-800 dark:text-slate-100">钱塘江源网荷储虚拟电厂</span>
+          <button className="group flex min-w-0 items-center gap-1.5">
+            <span className="break-words text-sm font-bold tracking-tight text-slate-800 dark:text-slate-100">钱塘江源网荷储虚拟电厂</span>
             <ChevronDown className="h-4 w-4 text-slate-500 transition-colors group-hover:text-slate-700 dark:group-hover:text-slate-300" />
           </button>
           <span className="rounded-full border border-blue-500/40 bg-blue-500/10 px-2.5 py-0.5 text-xs font-medium text-blue-600 dark:bg-blue-500/15 dark:text-blue-400">虚拟电厂</span>
@@ -1136,7 +1136,7 @@ const StorageInfoCard = forwardRef<HTMLDivElement>(function StorageInfoCard(_, r
         {/* RIGHT 62%: KPI Grid */}
         <div className="flex min-w-0 flex-1 flex-col gap-1.5 lg:pl-5">
           {/* 2×2 metric cards */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-2 min-[420px]:grid-cols-2">
             {[
               { label: "当前功率",         value: String(STORAGE_DISCHARGE_KW), unit: "kW",  tag: STORAGE_STATE as string | null },
               { label: "今日充电量",       value: "1,234", unit: "kWh", tag: null },
@@ -1144,17 +1144,17 @@ const StorageInfoCard = forwardRef<HTMLDivElement>(function StorageInfoCard(_, r
               { label: "累计等效循环次数", value: "342",   unit: "次",  tag: null, help: CONCEPT_HELP.cycleCount },
             ].map(m => (
               <div key={m.label} className={UI.kpiCard}>
-                <div className={cn("mb-1 flex items-center gap-1 text-[10px]", UI.textTitle)}>
-                  <span>{m.label}</span>
+                <div className={cn("mb-1 flex flex-wrap items-center gap-x-1 gap-y-0.5 text-[10px] leading-snug", UI.textTitle)}>
+                  <span className="break-words">{m.label}</span>
                   {("help" in m && m.help) ? <ConceptHelpTip text={m.help} /> : null}
                 </div>
-                <div className="flex items-baseline gap-1.5">
+                <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
                   <span className="font-mono text-[22px] font-bold leading-none text-foreground">
                     {m.value}
                   </span>
                   <span className={cn("text-xs", UI.textTitle)}>{m.unit}</span>
                   {m.tag && (
-                    <span className="self-center rounded-full border border-[#EAB308]/40 bg-[#EAB308]/10 px-1.5 py-0.5 text-[9px] font-medium text-[#EAB308]">
+                    <span className="rounded-full border border-[#EAB308]/40 bg-[#EAB308]/10 px-1.5 py-0.5 text-[9px] font-medium leading-snug text-[#EAB308]">
                       {m.tag}
                     </span>
                   )}
@@ -1164,7 +1164,7 @@ const StorageInfoCard = forwardRef<HTMLDivElement>(function StorageInfoCard(_, r
           </div>
 
           {/* SOC + Efficiency arc gauges, each with its own tip cell */}
-          <div className="flex gap-2 mt-3">
+          <div className="mt-3 flex flex-col gap-2 sm:flex-row">
             {/* SOC gauge + low-charge warning */}
             <div className="flex-1 flex flex-col">
               <ArcGauge
@@ -1177,9 +1177,9 @@ const StorageInfoCard = forwardRef<HTMLDivElement>(function StorageInfoCard(_, r
                     <div className="relative w-4/5 max-w-full">
                   <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-0 h-0"
                         style={{ borderLeft: "5px solid transparent", borderRight: "5px solid transparent", borderBottom: "6px solid rgba(249,115,22,0.35)" }} />
-                      <div className="flex items-center gap-1.5 rounded-md border border-[#F97316]/30 bg-card/95 py-1.5 pl-2 pr-1.5 shadow-sm backdrop-blur-[2px]">
-                        <AlertTriangle className="h-3 w-3 flex-shrink-0 text-[#F97316]" />
-                        <span className="flex-1 text-center text-[10px] font-medium leading-none text-[#F97316]">低电量预警，请及时充电</span>
+                      <div className="flex flex-wrap items-center gap-1.5 rounded-md border border-[#F97316]/30 bg-card/95 py-1.5 pl-2 pr-1.5 shadow-sm backdrop-blur-[2px]">
+                        <AlertTriangle className="h-3 w-3 shrink-0 text-[#F97316]" />
+                        <span className="min-w-0 flex-1 text-center text-[10px] font-medium leading-snug break-words text-[#F97316]">低电量预警，请及时充电</span>
                         <button
                           type="button"
                           onClick={() => setShowLowSocWarning(false)}
@@ -1391,40 +1391,40 @@ function DeviceStatusCard({ height }: { height?: number }) {
           <div key={d.id}
             className={cn("rounded-md border px-3 py-2.5 mx-0.5 transition-colors",
               isAlarm ? "border-[#FF3B30]/25 bg-[#FF3B30]/5" : "border-border bg-muted")}>
-            <div className="flex items-center gap-2.5">
-              <div className={cn("flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md",
+            <div className="flex flex-wrap items-start gap-x-2.5 gap-y-2">
+              <div className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-md",
                 d.status === "online" ? "bg-blue-500/15 text-blue-600 dark:text-blue-400" :
                 isAlarm ? "bg-[#FF3B30]/15 text-[#FF3B30]" : "bg-slate-200 text-slate-500 dark:bg-slate-700/50 dark:text-slate-400")}>
                 {getIcon(d.type)}
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1 min-w-0">
+              <div className="min-w-[10rem] flex-1">
+                <div className="flex flex-wrap items-center gap-1">
                   <StatusDot status={d.status} detail={d.detail} />
-                  <div className="flex min-w-0 flex-1 items-center gap-0.5">
-                    <span className={cn("min-w-0 truncate text-xs font-semibold", UI.textTitle)}>{d.name}</span>
+                  <div className="flex min-w-0 flex-1 flex-wrap items-center gap-0.5">
+                    <span className={cn("min-w-0 break-words text-xs font-semibold", UI.textTitle)}>{d.name}</span>
                     <button
                       type="button"
                       onClick={() => setSelectedDevice(d)}
                       aria-label={`查看 ${d.name} 详情`}
-                      className="flex-shrink-0 rounded p-0.5 text-muted-foreground hover:text-foreground transition-colors"
+                      className="shrink-0 rounded p-0.5 text-muted-foreground transition-colors hover:text-foreground"
                     >
                     <ChevronRight className="h-3.5 w-3.5" />
                   </button>
                 </div>
                 </div>
-                <div className="mt-0.5 text-[10px] text-muted-foreground">{d.detail}</div>
+                <div className="mt-0.5 break-words text-[10px] leading-snug text-muted-foreground">{d.detail}</div>
               </div>
-              <div className="text-right flex-shrink-0">
+              <div className="w-full text-left sm:ml-auto sm:w-auto sm:text-right">
                 <div className="font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">{d.value}</div>
-                <div className="text-[10px] font-medium mt-0.5" style={{ color: statusColor[d.status] }}>{statusLabel[d.status]}</div>
+                <div className="mt-0.5 text-[10px] font-medium leading-snug" style={{ color: statusColor[d.status] }}>{statusLabel[d.status]}</div>
               </div>
             </div>
             {/* Issues */}
             {d.issues.map((issue, i) => (
-              <div key={i} className="flex items-center gap-2 mt-2">
-                <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full" style={{ background: isAlarm || issue.severity === "alarm" ? "#FF3B30" : "#F97316" }} />
-                <div className="flex min-w-0 flex-1 items-center gap-1">
-                  <span className={cn("text-[11px]", UI.textSub)}>{issue.msg}</span>
+              <div key={i} className="mt-2 flex flex-wrap items-start gap-x-2 gap-y-1">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: isAlarm || issue.severity === "alarm" ? "#FF3B30" : "#F97316" }} />
+                <div className="flex min-w-[8rem] flex-1 flex-wrap items-center gap-1">
+                  <span className={cn("break-words text-[11px] leading-snug", UI.textSub)}>{issue.msg}</span>
                   {d.aiInsight && i === d.issues.length - 1 && (
                     <button
                       type="button"
@@ -1437,12 +1437,12 @@ function DeviceStatusCard({ height }: { height?: number }) {
                     </button>
                   )}
                 </div>
-                <span className="text-[10px] font-mono text-muted-foreground">{issue.time}</span>
+                <span className="shrink-0 font-mono text-[10px] text-muted-foreground">{issue.time}</span>
               </div>
             ))}
             {expanded === d.id && d.aiInsight && (
               <div className={cn(UI.panelMd, "mt-2 px-2.5 py-2")}>
-                <p className={cn("text-[10px] leading-relaxed", UI.textBody)}>
+                <p className={cn("break-words text-[10px] leading-relaxed", UI.textBody)}>
                   <span className="font-medium text-[#EA580C]">解决建议：</span>
                     {d.aiInsight}
                 </p>
@@ -1514,13 +1514,13 @@ function ChargeCurveCard() {
         title="储能充放电曲线"
         help={CONCEPT_HELP.chargeCurve}
         right={
-          <div className="flex items-center gap-3">
+          <div className="flex w-full flex-wrap items-center gap-2 sm:gap-3">
             <ChartDateNavigator
               label={chartDate}
               onPrev={() => setChartDate("2026-05-20")}
               onNext={() => setChartDate("2026-05-21")}
             />
-            <div className={cn("flex items-center gap-2 text-[10px] text-muted-foreground pl-2 border-l border-border")}>
+            <div className={cn("flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] text-muted-foreground sm:border-l sm:border-border sm:pl-2")}>
               <span className="flex items-center gap-1">
                 <span className="h-0.5 w-4 rounded-full inline-block" style={{ background: CURVE_DISCHARGE_COLOR }} />放电（kW）
         </span>
@@ -1592,7 +1592,7 @@ function ChargeCurveCard() {
       </div>
       {/* 优化方案建议 */}
       <div className={cn("mx-4 mt-2 shrink-0 px-3 py-2", UI.panelDeep)}>
-        <p className={cn("text-[11px] leading-relaxed", UI.textBody)}>
+        <p className={cn("break-words text-[11px] leading-relaxed", UI.textBody)}>
           <span className={cn("font-semibold", UI.textTitle)}>优化建议：</span>
           谷期（00:00–09:00）充电正常，但峰期放电深度过大，SOC 已降至 10.3%，建议控制峰期放电量并适当提高谷期充电功率。
         </p>
@@ -1653,17 +1653,17 @@ function BatteryRow({ b, isFocused, rowRef, onToggle }: {
     <div ref={rowRef} className={cn("border-b border-border last:border-0 transition-colors",
       b.status === "告警" && "bg-[#FF3B30]/4",
       isFocused && "ring-1 ring-inset ring-blue-500/40 bg-blue-500/5")}>
-      <div className="flex items-center gap-2 px-3 py-2">
-        <div className="flex items-center gap-1.5 flex-shrink-0 min-w-0">
-          <span className={cn("text-[11px] font-semibold whitespace-nowrap", UI.textTitle)}>{b.name}</span>
-          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap"
+      <div className="flex flex-wrap items-start gap-x-2 gap-y-1.5 px-3 py-2">
+        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-1.5 gap-y-1">
+          <span className={cn("break-words text-[11px] font-semibold leading-snug", UI.textTitle)}>{b.name}</span>
+          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold leading-snug"
           style={{ color: statusColor, background: statusBg }}>{b.status}</span>
         </div>
-        <div className="ml-auto flex flex-shrink-0 flex-wrap justify-end gap-1">
+        <div className="flex flex-wrap gap-1 sm:ml-auto">
           {b.issues
             .filter(iss => iss.label !== "单体低压")
             .map(iss => (
-            <span key={iss.label} className={cn("rounded border border-border bg-muted px-1.5 py-0.5 text-[10px]", UI.textSub)}>
+            <span key={iss.label} className={cn("break-words rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] leading-snug", UI.textSub)}>
               {iss.label}：<span className="font-mono" style={{ color: statusColor }}>{iss.value}</span>
             </span>
           ))}
@@ -1676,7 +1676,7 @@ function BatteryRow({ b, isFocused, rowRef, onToggle }: {
       {exp && (
         <div className="mx-3 mb-2.5 space-y-1.5">
           <div className={cn(UI.panelMd, "px-2.5 py-2")}>
-            <div className="grid grid-cols-2 divide-x divide-border">
+            <div className="grid grid-cols-1 divide-y divide-border min-[420px]:grid-cols-2 min-[420px]:divide-x min-[420px]:divide-y-0">
               {([
                 {
                   title: "电压",
@@ -1695,7 +1695,7 @@ function BatteryRow({ b, isFocused, rowRef, onToggle }: {
               ] as const).map((group, index) => (
                 <div
                   key={group.title}
-                  className={cn("min-w-0 space-y-1", index === 0 ? "pr-2.5" : "pl-2.5")}
+                  className={cn("min-w-0 space-y-1", index === 0 ? "min-[420px]:pr-2.5" : "min-[420px]:pl-2.5")}
                 >
                   <div className={cn("text-[10px] font-semibold", UI.textSub)}>
                     {group.title}
@@ -1708,17 +1708,17 @@ function BatteryRow({ b, isFocused, rowRef, onToggle }: {
                       ? `${statusTone}18`
                       : undefined;
                 return (
-                      <div key={row.label} className="flex items-center justify-between gap-2 text-[10px] leading-tight">
-                        <span className="shrink-0 text-muted-foreground">{row.label}</span>
+                      <div key={row.label} className="flex flex-wrap items-center justify-between gap-x-2 gap-y-0.5 text-[10px] leading-snug">
+                        <span className="text-muted-foreground">{row.label}</span>
                         {row.kind === "status" ? (
                           <span
-                            className="ml-auto shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-semibold whitespace-nowrap"
+                            className="rounded-full px-1.5 py-0.5 text-[10px] font-semibold leading-snug"
                             style={{ color: statusTone, background: statusBg }}
                           >
                             {row.value}
                           </span>
                         ) : (
-                          <span className="ml-auto shrink-0 text-right font-mono text-slate-700 dark:text-slate-300">
+                          <span className="text-right font-mono text-slate-700 dark:text-slate-300">
                             {row.value}
                           </span>
                         )}
@@ -1953,7 +1953,7 @@ function ChargeVolumeCard() {
         }
       />
       <div
-        className="mx-4 mt-3 mb-3 flex items-baseline justify-center gap-8"
+        className="mx-4 mb-3 mt-3 flex flex-wrap items-baseline justify-center gap-x-6 gap-y-2"
         aria-label="当前时间范围充放电量汇总"
       >
         {[
@@ -1961,9 +1961,9 @@ function ChargeVolumeCard() {
           { label: summaryLabels.discharge, value: formatVolumeSummaryValue(summary.discharge), color: STORAGE_DISCHARGE_COLOR },
           { label: "当前状态", value: STORAGE_STATE, color: STORAGE_DISCHARGE_COLOR },
         ].map(s => (
-          <div key={s.label} className="flex items-baseline gap-1.5">
-            <span className="shrink-0 text-[10px] text-muted-foreground">{s.label}</span>
-            <span className="whitespace-nowrap text-sm font-bold font-mono leading-none tabular-nums" style={{ color: s.color }}>{s.value}</span>
+          <div key={s.label} className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
+            <span className="text-[10px] text-muted-foreground">{s.label}</span>
+            <span className="break-words text-sm font-bold font-mono leading-snug tabular-nums" style={{ color: s.color }}>{s.value}</span>
           </div>
         ))}
       </div>
@@ -2214,7 +2214,7 @@ function SOCCriticalAlert({ onClose }: { onClose: () => void }) {
             </div>
             <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors"><X className="h-3.5 w-3.5" /></button>
           </div>
-          <p className={cn("mt-2 text-[11px] leading-[1.6]", UI.textBody)}>
+          <p className={cn("mt-2 break-words text-[11px] leading-relaxed", UI.textBody)}>
             <span className="font-mono font-bold text-[#FF3B30]">RACK-06</span> SOC 降至{" "}
             <span className="font-mono font-bold text-[#FF3B30]">{STORAGE_SOC}%</span>，低于安全阈值 15%。建议立即切换充电模式。
           </p>
