@@ -1037,19 +1037,19 @@ function Header({
 
   return (
     <Card className="overflow-hidden">
-      <div className="flex items-center justify-between gap-4 px-5 py-3">
-        <div className="flex items-center gap-3 flex-wrap min-w-0">
-          <button className="flex items-center gap-1.5 group flex-shrink-0">
+      <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-5">
+        <div className="flex min-w-0 flex-wrap items-center gap-2 sm:gap-3">
+          <button className="group flex flex-shrink-0 items-center gap-1.5">
             <span className="text-sm font-bold tracking-tight text-slate-800 dark:text-slate-100">钱塘江源网荷储虚拟电厂</span>
-            <ChevronDown className="h-4 w-4 text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors" />
+            <ChevronDown className="h-4 w-4 text-slate-500 transition-colors group-hover:text-slate-700 dark:group-hover:text-slate-300" />
           </button>
           <span className="rounded-full border border-blue-500/40 bg-blue-500/10 px-2.5 py-0.5 text-xs font-medium text-blue-600 dark:bg-blue-500/15 dark:text-blue-400">虚拟电厂</span>
           <span className="flex items-center gap-1.5 rounded-full border border-[#22C55E]/30 bg-[#22C55E]/10 px-2.5 py-0.5 text-xs font-medium text-[#22C55E]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E] animate-pulse" />
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#22C55E]" />
             正常运行中
           </span>
-          <span className="font-mono text-xs text-slate-500">2026-05-21 14:32:08</span>
-          <button className="rounded p-0.5 text-muted-foreground hover:text-foreground transition-colors"><RefreshCw className="h-3.5 w-3.5" /></button>
+          <span className="hidden font-mono text-xs text-slate-500 sm:inline">2026-05-21 14:32:08</span>
+          <button className="hidden rounded p-0.5 text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"><RefreshCw className="h-3.5 w-3.5" /></button>
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
           <button
@@ -1075,7 +1075,7 @@ function Header({
           </button>
         </div>
       </div>
-      <div className={cn("flex overflow-x-auto px-5", UI.borderB)}>
+      <div className={cn("flex overflow-x-auto px-4 sm:px-5", UI.borderB)}>
         {PRIMARY_TABS.map(tab => (
           <button key={tab} onClick={() => setPrimaryTab(tab)}
             className={cn("relative flex-shrink-0 px-3.5 py-2.5 text-xs transition-colors",
@@ -1085,7 +1085,7 @@ function Header({
           </button>
         ))}
       </div>
-      <div className="flex items-center gap-1.5 px-5 py-2.5">
+      <div className="flex items-center gap-1.5 overflow-x-auto px-4 py-2.5 sm:px-5">
         {SECONDARY_TABS.map(tab => (
           <button key={tab} onClick={() => setSecondaryTab(tab)}
             className={cn("rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
@@ -1110,9 +1110,9 @@ const StorageInfoCard = forwardRef<HTMLDivElement>(function StorageInfoCard(_, r
   return (
     <Card ref={ref}>
       <SectionTitle title="数据概览" />
-      <div className="flex items-start gap-0 px-4 pb-[14px] pt-3">
+      <div className="flex flex-col gap-4 px-3 pb-[14px] pt-3 sm:px-4 lg:flex-row lg:items-start lg:gap-0">
         {/* LEFT 38%: Topology SVG — labels rendered inside SVG below each node */}
-        <div className="w-[38%] flex-shrink-0 relative self-start pr-4">
+        <div className="relative w-full flex-shrink-0 self-start lg:w-[38%] lg:pr-4">
           <div className="relative w-full">
             <TopologySVG onHover={setHoveredNode} />
             {hoveredNode && tooltip && (
@@ -1122,19 +1122,19 @@ const StorageInfoCard = forwardRef<HTMLDivElement>(function StorageInfoCard(_, r
               >
                 <div className={cn("mb-2 text-[11px] font-semibold", UI.textTitle)}>{tooltip.title}</div>
                 {tooltip.items.map(it => (
-                  <div key={it.l} className="flex justify-between gap-2 text-[10px] py-0.5">
-                    <span className="text-muted-foreground shrink-0">{it.l}</span>
-                    <span className="font-mono text-foreground text-right">{it.v}</span>
+                  <div key={it.l} className="flex justify-between gap-2 py-0.5 text-[10px]">
+                    <span className="shrink-0 text-muted-foreground">{it.l}</span>
+                    <span className="text-right font-mono text-foreground">{it.v}</span>
                   </div>
                 ))}
               </div>
             )}
           </div>
-          <div className="absolute inset-y-0 right-0 w-px bg-border" />
+          <div className="absolute inset-y-0 right-0 hidden w-px bg-border lg:block" />
         </div>
 
         {/* RIGHT 62%: KPI Grid */}
-        <div className="flex-1 min-w-0 pl-5 flex flex-col gap-1.5">
+        <div className="flex min-w-0 flex-1 flex-col gap-1.5 lg:pl-5">
           {/* 2×2 metric cards */}
           <div className="grid grid-cols-2 gap-2">
             {[
@@ -1328,7 +1328,7 @@ function DeviceDetailModal({ device, onClose }: { device: Device; onClose: () =>
 }
 
 // ─── 设备状态 ──────────────────────────────────────────────────────────────────
-function DeviceStatusCard({ height }: { height: number }) {
+function DeviceStatusCard({ height }: { height?: number }) {
   const [filter, setFilter] = useState("全部");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
@@ -1364,8 +1364,11 @@ function DeviceStatusCard({ height }: { height: number }) {
     <>
     {selectedDevice && <DeviceDetailModal device={selectedDevice} onClose={() => setSelectedDevice(null)} />}
     <Card
-      className="flex h-full max-h-full min-h-0 flex-col overflow-hidden"
-      style={{ height, maxHeight: height, minHeight: height }}
+      className={cn(
+        "flex min-h-0 flex-col overflow-hidden",
+        height ? "h-full max-h-full" : "h-[24rem] max-h-[24rem] sm:h-[26rem] sm:max-h-[26rem]",
+      )}
+      style={height ? { height, maxHeight: height, minHeight: height } : undefined}
     >
       <SectionTitle title="设备状态" />
       {/* Filter chips */}
@@ -2198,7 +2201,7 @@ function NotificationPopover({
 // ─── SOC Critical Alert ───────────────────────────────────────────────────────
 function SOCCriticalAlert({ onClose }: { onClose: () => void }) {
   return (
-    <div className="fixed right-6 top-[170px] z-50 w-72 rounded-lg border border-[#FF3B30]/60 bg-popover shadow-2xl">
+    <div className="fixed inset-x-3 top-24 z-50 w-auto max-w-sm rounded-lg border border-[#FF3B30]/60 bg-popover shadow-2xl sm:inset-x-auto sm:right-6 sm:w-72">
       <div className="flex items-start gap-3 p-4">
         <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg border border-[#FF3B30]/40 bg-[#FF3B30]/15">
           <Bot className="h-4 w-4 text-[#FF3B30]" />
@@ -2262,10 +2265,24 @@ function AlarmDetailPanel({ date, onClose }: { date: string; onClose: () => void
 function OverviewDeviceRow() {
   const storageRef = useRef<HTMLDivElement>(null);
   const [pairedHeight, setPairedHeight] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia("(min-width: 1024px)").matches : true,
+  );
+
+  useLayoutEffect(() => {
+    const media = window.matchMedia("(min-width: 1024px)");
+    const onChange = () => setIsDesktop(media.matches);
+    onChange();
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, []);
 
   useLayoutEffect(() => {
     const node = storageRef.current;
-    if (!node) return;
+    if (!node || !isDesktop) {
+      setPairedHeight(0);
+      return;
+    }
 
     const syncHeight = () => {
       const next = Math.round(node.getBoundingClientRect().height);
@@ -2276,17 +2293,17 @@ function OverviewDeviceRow() {
     const observer = new ResizeObserver(syncHeight);
     observer.observe(node);
     return () => observer.disconnect();
-  }, []);
+  }, [isDesktop]);
 
-  const pairedStyle: CSSProperties | undefined = pairedHeight > 0
+  const pairedStyle: CSSProperties | undefined = isDesktop && pairedHeight > 0
     ? { height: pairedHeight, maxHeight: pairedHeight, minHeight: pairedHeight }
     : undefined;
 
   return (
-    <div className="grid grid-cols-[minmax(0,13fr)_minmax(0,7fr)] items-start gap-5">
+    <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,13fr)_minmax(0,7fr)]">
       <StorageInfoCard ref={storageRef} />
       <div className="min-h-0 overflow-hidden" style={pairedStyle}>
-        {pairedHeight > 0 ? <DeviceStatusCard height={pairedHeight} /> : null}
+        <DeviceStatusCard height={isDesktop && pairedHeight > 0 ? pairedHeight : undefined} />
       </div>
     </div>
   );
@@ -2312,8 +2329,8 @@ export default function App() {
 
   return (
     <div className={cn("min-h-screen overflow-x-hidden bg-background", isDark && "dark")}
-      style={{ fontFamily: "Inter, 'Noto Sans SC', sans-serif" }}>
-      <div className="mx-auto max-w-[1600px] space-y-5 p-6">
+      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', Inter, 'Noto Sans SC', sans-serif" }}>
+      <div className="mx-auto max-w-[1600px] space-y-4 p-3 sm:space-y-5 sm:p-4 lg:p-6">
         <Header
           primaryTab={primaryTab} setPrimaryTab={setPrimaryTab}
           secondaryTab={secondaryTab} setSecondaryTab={setSecondaryTab}
@@ -2325,13 +2342,13 @@ export default function App() {
         {/* Rows 1+2 — aligned with main app: row height not driven by expanded battery rows */}
         <div className="space-y-5">
           <OverviewDeviceRow />
-          <div className="grid grid-cols-[minmax(0,13fr)_minmax(0,7fr)] items-start gap-5">
+          <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,13fr)_minmax(0,7fr)]">
             <ChargeCurveCard />
             <BatteryConsistencyCard />
           </div>
         </div>
         {/* Row 3 — equal */}
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
           <ChargeVolumeCard />
           <AlarmStatsCard onBarClick={d => d && setSelectedAlarmDate(d)} />
         </div>
