@@ -1,5 +1,6 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite"
+  "framework": "vite",
+  "installCommand": "npm ci --prefix figma-make-export",
+  "buildCommand": "npm run build --prefix figma-make-export",
+  "outputDirectory": "figma-make-export/dist"
 }
